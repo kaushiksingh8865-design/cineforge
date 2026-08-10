@@ -119,3 +119,5 @@ credentials/
 # Jupyter
 # ===========================
 .ipynb_checkpoints/
+
+#.txt

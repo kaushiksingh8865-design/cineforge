@@ -1,0 +1,175 @@
+#here we are going to entry every step and action daily that i will take during maing project . what tool we used and why we used . and which topic method we used during making this project 
+
+Overall structure of project 
+
+
+                    FILM PROJECT
+                         │
+                    ORCHESTRATOR
+                         │
+          ┌──────────────┼──────────────┐
+          ↓              ↓              ↓
+      CREATIVE       PRODUCTION       EDITING
+          │              │              │
+          │              │              │
+   Screenwriter     Breakdown       Footage
+   Character        Research        Scene Detection
+   Continuity       Location        Shot/Take
+   Visualization   Schedule        Speech-to-Text
+                    Budget          Visual Analysis
+                    Risk            Editing Copilot
+                    Weather
+                    Reports
+                    Communication
+          │              │              │
+          └──────────────┼──────────────┘
+                         ↓
+                 SHARED FILM MODEL
+                         │
+              ┌──────────┼──────────┐
+              ↓          ↓          ↓
+             RAG       TOOLS     EVENT LOG
+              │          │          │
+           pgvector   Parallel   Versioning
+           Embeddings Weather    Changes
+                         │
+                         ↓
+                  CHANGE ENGINE
+                         │
+                    VALIDATION
+                         │
+                  HUMAN APPROVAL
+
+Phase 0 — Foundation
+
+FastAPI
+Gemini client
+Pydantic
+configuration
+
+Phase 1 — Reliability foundation
+
+structured outputs
+validation
+proposal model
+approval model
+event model
+
+Phase 2 — Tools
+
+PostgreSQL/database tool
+Parallel tool
+Weather tool
+later image/video tools
+
+Phase 3 — Memory
+
+Gemini Embeddings
+pgvector
+ingestion
+retrieval
+RAG
+
+Phase 4 — One complete agent
+
+Screenplay/Scene Extraction Agent
+connect Gemini + validation + database + RAG where useful
+evaluate it
+
+Phase 5 — More agents
+
+Screenwriter
+Character
+Continuity
+Visualization
+Breakdown
+Research
+Location
+Schedule
+etc.
+
+Phase 6 — Orchestration + Change Engine
+
+dependency graph
+change detection
+impact analysis
+agent coordination
+proposals
+approval
+event/version history
+
+Phase 7 — Editing Intelligence
+
+video processing
+scene/take detection
+STT
+vision
+embeddings
+footage RAG/search
+
+
+# git functions 
+1. git branch 
+2. git status
+3. git login --oneline --decorate -5
+4.pip install fastapi uvicorn
+5.pip install pydantic-settings
+6. Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+7.pip list - check what module install or not. 
+8.python -m backened.app.ai.core.gemini_client
+9
+
+
+
+
+
+
+step1. core -> setting.py
+1. help in configuration 
+2.Config Files: Files (like .json, .yaml, .ini, or .env) that store settings like database credentials, environment variables, or visual themes without changing the core codebase.
+3. we installed pydantic_settings and using basesettings
+basesettings- it is a class used for configuration.
+4. python -c "from backened.app.ai.core.settings import settings; print('Settings loaded:', bool(settings.gemini_api_key))"
+   we used this for checking that our python-c working properly 
+
+step2. core-> gemini_api.py
+1.import genai 
+2.import settings from .settings
+3.genai.client() - we used for what clinet is we are using and using apikey . from configuration
+4.client.chat or same command are object from gemini. 
+5. return.text and return.parsed
+6. 
+step3 schemas-> scene.py. 
+1. we are using pydantic here for basemodel . help to validate data. 
+2. decide the field we need.it help to differentiate between messy data .
+
+step3 . ai proposal->proposal.py 
+1. we are making proposal because if user say that change this action it will come as a proposal and llm will respond according to this 
+
+
+why use pydantic ? 
+it provide template and make easy configuration clear and good to do 
+it raise clear error and easy to debugg 
+ Native Integration with .env Files
+Pydantic reads environment variables from both your operating system and .env files automatically without needing extra boilerplate code:
+Automatic validation
+
+if we dont use pydantic then we will need to use os module for configuraion. that will become hurdle in development that we use pydantic 
+type annotation :- name:str its mean name will need to be string. 
+pydantic provide us basemodel and do sutomatic validation. but it cant check or define specific value . thats why use buissness validation
+
+
+
+
+
+
+
+
+
+
+
+
+
+# extra python concepts.
+1. lambda -use for making a function. 
+2. .join() use to join 2 or more python string in to each other 
