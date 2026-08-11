@@ -4,6 +4,7 @@ from pydantic_settings import SettingsConfigDict  # how should those settings be
 
 class Settings(BaseSettings):
     gemini_api_key:str
+    database_url:str
     model_config = SettingsConfigDict(env_file=".env")  # load settings from .env file....#
 
 

@@ -146,6 +146,35 @@ step3 schemas-> scene.py.
 step3 . ai proposal->proposal.py 
 1. we are making proposal because if user say that change this action it will come as a proposal and llm will respond according to this 
 
+step4. initialising fastapi
+1. @app.get("/") - 
+decorator define by fastapi for initilaising the request http request.
+2.for using fast api command install fast api standard . 
+ pip install "fastapi[standard]" 
+ uvicorn app.main:app --reload - use for run the framework.
+ or fastapi dev app/main.py 
+3. exmaple:
+
+@app.get("/projects")
+def get_projects():
+    return {"projects":
+            [{"id" : 1 , "title":'my first film'}]}
+
+
+
+
+step5.database
+#sqlalchemy : used to convert sql code in pythona nd help to write code in python not in sql . 
+1. createngine: - 
+2. Declaritive Base , Sessionmaker
+3. sqlalchemy.orm
+
+
+Tools
+_____________
+1. sql alchemy
+2. pycopg
+
 
 why use pydantic ? 
 it provide template and make easy configuration clear and good to do 
@@ -173,3 +202,6 @@ pydantic provide us basemodel and do sutomatic validation. but it cant check or 
 # extra python concepts.
 1. lambda -use for making a function. 
 2. .join() use to join 2 or more python string in to each other 
+3. Asgi = asychromous server gateway interface . (learn about this.)
+4. fastapi - path parameter ,_query parameter.
+5. 
