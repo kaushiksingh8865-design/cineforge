@@ -1,5 +1,5 @@
 from backened.app.ai.proposal.proposal import Proposal
-from backened.app.ai.approvals.approval import ApprovalDecision
+from cineforge.backened.app.ai.schemas.approval import ApprovalDecision
 
 
 

@@ -1,7 +1,7 @@
 from datetime import datetime
 from uuid import uuid4
 
-from .event import Event
+from ..schemas.event import Event
 
 
 def create_event(

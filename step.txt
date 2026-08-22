@@ -113,8 +113,8 @@ footage RAG/search
 2. git status
 3. git login --oneline --decorate -5
 4.pip install fastapi uvicorn
-5.pip install pydantic-settings
-6. Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+5.pip install pydantic-settings Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+6.
 7.pip list - check what module install or not. 
 8.python -m backened.app.ai.core.gemini_client
 9

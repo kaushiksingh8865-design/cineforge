@@ -4,6 +4,7 @@ from .validation import validate_scene
 
 valid_scene = Scene(
     scene_number=1,
+    header = "INT-laboraratory -NIGHT",
     location="Factory",
     time_of_day="night",
 )
