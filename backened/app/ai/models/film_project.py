@@ -8,6 +8,8 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.ai.models.scene1 import Scene
+    from app.ai.models.characters import Character
+    from app.ai.models.property import PropState
 
 
 class FilmProject(Base):
@@ -40,4 +42,15 @@ class FilmProject(Base):
         "Scene",
         back_populates="project",
         cascade="all, delete-orphan",
+    )
+
+    characters: Mapped[list["Character"]] = relationship(
+    "Character",
+    back_populates="project",
+    cascade="all, delete-orphan",
+    )
+    prop:Mapped[list['PropState']] = relationship(
+        "PropState",
+        back_populates="project",
+        cascade= "all, delete-orphan"
     )

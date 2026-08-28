@@ -1,9 +1,9 @@
 from pydantic import BaseModel , Field
 
-class characterstate(BaseModel):
+class CharacterState(BaseModel):
     name:str
     status:str | None = None
-    Injuries: list[str] = Field(default_factory =list)
+    injuries: list[str] = Field(default_factory =list)
     wardrobe: list[str] =Field(default_factory = list)
 
 
@@ -19,7 +19,8 @@ class Scene(BaseModel):
     location:str |None =None
     time_of_day:str
 
-    characters: list[characterstate] = Field(default_factory=list)
+    characters: list[CharacterState] = Field(default_factory=list)
+  
     props: list[PropState]= Field(default_factory=list)
     visual_prompt:str |None =None
 

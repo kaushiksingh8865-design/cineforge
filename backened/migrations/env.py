@@ -21,6 +21,8 @@ if config.config_file_name is not None:
 from app.ai.database.database import Base
 from app.ai.models.film_project import FilmProject
 from app.ai.models.scene1 import Scene
+from app.ai.models.characters import Character
+from app.ai.models.property import PropState
 from app.ai.core.settings import settings
 
 target_metadata = Base.metadata
