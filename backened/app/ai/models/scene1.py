@@ -5,9 +5,12 @@ from sqlalchemy import ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.ai.database.database import Base
+from app.ai.models.association import scene_characters, scene_props
 
 if TYPE_CHECKING:
     from app.ai.models.film_project import FilmProject
+    from app.ai.models.characters import Character
+    from app.ai.models.property import PropState
 
 
 class Scene(Base):
@@ -46,5 +49,18 @@ class Scene(Base):
 
     project: Mapped["FilmProject"] = relationship(
         "FilmProject",
+        back_populates="scenes",
+    )
+
+
+    #connection with charcaters through association
+    characters: Mapped[list["Character"]]= relationship(
+        secondary = scene_characters,
+        back_populates="scenes",
+
+    )
+    #connection with property through asscociation.
+    props: Mapped[list["PropState"]] = relationship(
+        secondary= scene_props,
         back_populates="scenes",
     )

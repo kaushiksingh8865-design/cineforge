@@ -5,9 +5,10 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.ai.database.database import Base
-
+from app.ai.models.association import scene_characters
 if TYPE_CHECKING:
     from app.ai.models.film_project import FilmProject
+    from app.ai.models.scene1 import Scene
 
 
 class Character(Base):
@@ -48,3 +49,11 @@ class Character(Base):
         "FilmProject",
         back_populates="characters",
     )
+
+    #connection with scenes by association.
+    scenes: Mapped[list["Scene"]] = relationship(
+        secondary = scene_characters,
+        back_populates="characters",
+    )
+    
+        
