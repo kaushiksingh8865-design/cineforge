@@ -1,4 +1,4 @@
-from backened.app.ai.proposal.proposal import Proposal
+from cineforge.backened.app.ai.schemas.proposal import Proposal
 from backened.app.ai.approvals.approval_service import approve_proposal, reject_proposal
 
 proposal = Proposal(

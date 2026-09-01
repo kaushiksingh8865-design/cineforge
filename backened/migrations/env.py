@@ -22,8 +22,11 @@ from app.ai.database.database import Base
 from app.ai.models.film_project import FilmProject
 from app.ai.models.scene1 import Scene
 from app.ai.models.characters import Character
-from app.ai.models.property import PropState
+from app.ai.models.property import Prop
 from app.ai.models.association import scene_props, scene_characters
+from app.ai.models.scenestate import SceneState
+from app.ai.models.characterstate import CharacterState
+from app.ai.models.propstate import PropState
 from app.ai.core.settings import settings
 
 target_metadata = Base.metadata

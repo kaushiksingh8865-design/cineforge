@@ -9,7 +9,10 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from app.ai.models.scene1 import Scene
     from app.ai.models.characters import Character
-    from app.ai.models.property import PropState
+    from app.ai.models.property import Prop
+    from app.ai.models.proposal import ProposalModel
+    from app.ai.models.version import Version
+    from app.ai.models.generated import GeneratedFile
 
 
 class FilmProject(Base):
@@ -49,8 +52,21 @@ class FilmProject(Base):
     back_populates="project",
     cascade="all, delete-orphan",
     )
-    prop:Mapped[list['PropState']] = relationship(
-        "PropState",
+    prop:Mapped[list['Prop']] = relationship(
+        "Prop",
         back_populates="project",
         cascade= "all, delete-orphan"
     )
+
+    proposals:Mapped["ProposalModel"] = relationship(
+        "ProposalModel",
+        back_populates="project"
+    )
+    versions: Mapped[list["Version"]] = relationship(
+        "Version",
+        back_populates="project",
+    ) 
+    generated_files:Mapped["GeneratedFile"] = relationship(
+        "GeneratedFile",
+        back_populates="project",
+    ) 

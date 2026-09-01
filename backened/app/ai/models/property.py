@@ -10,7 +10,7 @@ if TYPE_CHECKING :
     from app.ai.models.scene1 import Scene
 
 
-class PropState(Base):
+class Prop(Base):
     __tablename__ = "props"
 
     id:Mapped[int] = mapped_column(
@@ -24,19 +24,7 @@ class PropState(Base):
         Text, 
         nullable= False
     )
-    holder:Mapped[str| None] = mapped_column(
-        Text,
-        nullable = True
-    )
-    location:Mapped[str|None] = mapped_column(
-        Text,
-        nullable = True
-    )
-    status:Mapped[str] = mapped_column(
-        Text,
-        nullable = False
-
-    )
+   
     discription:Mapped[str|None]= mapped_column(
         Text,
         nullable= True
@@ -49,7 +37,7 @@ class PropState(Base):
     )
     #connection with scenes
     scenes:Mapped[list['Scene']] = relationship(
-        scondary= scene_props,
+        secondary= scene_props,
         back_populates= 'props',
     )
 
