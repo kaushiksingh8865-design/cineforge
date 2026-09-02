@@ -14,6 +14,8 @@ if TYPE_CHECKING:
     from app.ai.models.property import Prop
     from app.ai.models.scenestate import SceneState
     from app.ai.models.proposal import ProposalModel
+    from app.ai.models.characterstate import CharacterState
+    from app.ai.models.propstate import PropState
 
 
 class Scene(Base):
@@ -74,7 +76,17 @@ class Scene(Base):
         cascade="all, delete-orphan",
     )
 
-    proposals:Mapped["ProposalModel"] = relationship(
+    proposals:Mapped[list["ProposalModel"]] = relationship(
         "ProposalModel",
         back_populates="scenes"
+    )
+    character_states:Mapped[list["CharacterState"]] = relationship(
+        "CharacterState",
+        back_populates= "scene",
+        cascade = "all , delete-orphan",
+    )
+    prop_states: Mapped[list["PropState"]] = relationship(
+        "PropState",
+        back_populates= "scene",
+        cascade = "all , delete-orphan",
     )

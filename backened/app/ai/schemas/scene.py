@@ -1,22 +1,12 @@
 from pydantic import BaseModel , Field
-
-class CharacterState(BaseModel):
-    name:str
-    status:str | None = None
-    injuries: list[str] = Field(default_factory =list)
-    wardrobe: list[str] =Field(default_factory = list)
-
-
-class PropState(BaseModel):
-    name:str
-    holder:str|None = None
-    location:str|None =None
+from app.ai.schemas.characterstate import CharacterState
+from app.ai.schemas.propstate import PropState
 
 
 class Scene(BaseModel):
     scene_number:int
-    header:str |None = None
-    location:str |None =None
+    header:str 
+    location:str 
     time_of_day:str
 
     characters: list[CharacterState] = Field(default_factory=list)

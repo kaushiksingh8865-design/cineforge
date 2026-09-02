@@ -8,6 +8,7 @@ from app.ai.models.association import scene_props
 if TYPE_CHECKING :
     from app.ai.models.film_project import FilmProject
     from app.ai.models.scene1 import Scene
+    from app.ai.models.propstate import PropState
 
 
 class Prop(Base):
@@ -39,5 +40,10 @@ class Prop(Base):
     scenes:Mapped[list['Scene']] = relationship(
         secondary= scene_props,
         back_populates= 'props',
+    )
+    states:Mapped[list["PropState"]] = relationship(
+        "PropState",
+        back_populates= "prop" ,
+        cascade = "all , delete-orphan",
     )
 

@@ -20,6 +20,7 @@ class ProposalModel(Base):
     proposal_id:Mapped[str] = mapped_column(
         Text,
         nullable= False,
+        unique= True
     )
     project_id:Mapped[int] = mapped_column(
         ForeignKey("film_projects.id",ondelete="CASCADE"),
@@ -29,7 +30,7 @@ class ProposalModel(Base):
         ForeignKey("scenes.id",ondelete="CASCADE"),
         nullable= True,
     )
-    discription:Mapped[str|None]= mapped_column(
+    description:Mapped[str|None]= mapped_column(
         Text,
         nullable =True,
     )
@@ -51,7 +52,7 @@ class ProposalModel(Base):
         "FilmProject",
         back_populates = "proposals"
     )
-    scenes:Mapped["Scene"]= relationship(
+    scenes:Mapped["Scene | None"]= relationship(
         "Scene",
         back_populates= "proposals"
     )

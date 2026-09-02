@@ -22,6 +22,11 @@ class EventModel(Base):
         Text,
         nullable=False,
     )
+    event_type:Mapped[str] = mapped_column(
+        Text,
+        nullable= False
+    )
+    
     description:Mapped[str|None] = mapped_column(
         Text,
         nullable= True,

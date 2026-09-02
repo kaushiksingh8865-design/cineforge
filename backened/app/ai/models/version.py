@@ -45,5 +45,6 @@ class Version(Base):
     )
     generated_files:Mapped["GeneratedFile"] = relationship(
         "GeneratedFile",
-        back_populates = "version"
+        back_populates = "version",
+        cascade= "all, delete-orphan",
     )

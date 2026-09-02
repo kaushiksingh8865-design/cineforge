@@ -9,6 +9,7 @@ from app.ai.models.association import scene_characters
 if TYPE_CHECKING:
     from app.ai.models.film_project import FilmProject
     from app.ai.models.scene1 import Scene
+    from app.ai.models.characterstate import CharacterState
 
 
 class Character(Base):
@@ -28,22 +29,7 @@ class Character(Base):
         nullable=False,
     )
 
-    status: Mapped[str | None] = mapped_column(
-        Text,
-        nullable=True,
-    )
-
-    injuries: Mapped[list[str]] = mapped_column(
-        JSONB,
-        default=list,
-        nullable=False,
-    )
-
-    wardrobe: Mapped[list[str]] = mapped_column(
-        JSONB,
-        default=list,
-        nullable=False,
-    )
+   
 
     project: Mapped["FilmProject"] = relationship(
         "FilmProject",
@@ -55,5 +41,9 @@ class Character(Base):
         secondary = scene_characters,
         back_populates="characters",
     )
+    states: Mapped[list["CharacterState"]] = relationship(
+        "CharacterState" ,
+        back_populates= "character",
+        cascade= "all , delete-orphan",
+    )
     
-        

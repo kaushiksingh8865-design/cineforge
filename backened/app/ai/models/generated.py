@@ -39,7 +39,7 @@ class GeneratedFile(Base):
         nullable = False,
     
     )
-    metadata:Mapped[dict] = mapped_column(
+    file_metadata:Mapped[dict] = mapped_column(
         JSONB,
         default= dict,
         nullable = False,

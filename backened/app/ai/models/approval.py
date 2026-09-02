@@ -18,6 +18,7 @@ class ApprovalModel(Base):
     proposal_id:Mapped[int] = mapped_column(
         ForeignKey("proposals.id",ondelete="CASCADE"),
         nullable= False,
+        unique= True
         
     )
     approved:Mapped[bool] = mapped_column(
