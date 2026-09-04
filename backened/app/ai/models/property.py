@@ -26,7 +26,7 @@ class Prop(Base):
         nullable= False
     )
    
-    discription:Mapped[str|None]= mapped_column(
+    description:Mapped[str|None]= mapped_column(
         Text,
         nullable= True
 

@@ -204,4 +204,31 @@ pydantic provide us basemodel and do sutomatic validation. but it cant check or 
 2. .join() use to join 2 or more python string in to each other 
 3. Asgi = asychromous server gateway interface . (learn about this.)
 4. fastapi - path parameter ,_query parameter.
-5. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# async concept .
+we use db.query for synchromous 
+for ansync we use now . select(SceneModel
+result = await db.execute
