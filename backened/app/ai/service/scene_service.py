@@ -76,7 +76,7 @@ class SceneService:
         return result.scalars().all()
 
     @staticmethod
-    async def get_scene_with_relatiosnships( db: AsyncSession , scene_id:int,) -> SceneModel | None:
+    async def get_scene_with_relationships( db: AsyncSession , scene_id:int,) -> SceneModel | None:
         result = await db.execute( select(SceneModel).options(
         selectinload(SceneModel.characters),
         selectinload(SceneModel.props),
@@ -116,18 +116,3 @@ class SceneService:
     async def get_scene_range(db:AsyncSession , project_id:int , start_scene:int , end_scene:int,) -> list[SceneModel]:
         result = await db.execute(select(SceneModel).where(SceneModel.project_id == project_id, SceneModel.scene_number >= start_scene, SceneModel.scene_number <= end_scene).order_by(SceneModel.scene_number))
         return result.scalars().all()
-
-    
-
-
-
-
-    
-
-
-
-    
-
-                                  
-
-
