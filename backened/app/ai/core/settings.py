@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
 
        
-    )  # load settings from .env file....#
+    ) 
 
 
 settings = Settings()  # create an instance of the settings class
