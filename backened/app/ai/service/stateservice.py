@@ -50,7 +50,7 @@ class StateService:
         state.injuries= state_data.injuries
         state.wardrobe=state_data.wardrobe
 
-        await db.commit()
+        await db.flush()
         await db.refresh(state)
 
         return state
@@ -113,7 +113,7 @@ class StateService:
         state.location = state_data.location
         state.status = state_data.status
 
-        await db.commit()
+        await db.flush()
         await db.refresh(state)
 
         return state
@@ -171,7 +171,7 @@ class StateService:
 
         state.state_data = state_data.state_data
 
-        await db.commit()
+        await db.flush()
         await db.refresh(state)
 
         return state
