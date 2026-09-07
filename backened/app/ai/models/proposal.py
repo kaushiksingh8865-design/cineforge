@@ -42,6 +42,10 @@ class ProposalModel(Base):
         Text,
         nullable = True
     )
+    change_data: Mapped[dict] = mapped_column(
+        JSONB,
+        nullable = False,
+    )
     created_at:Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default = func.now(),
