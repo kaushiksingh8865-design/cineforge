@@ -59,6 +59,8 @@ SessionLocal = async_sessionmaker(
 
 class Base(DeclarativeBase):
     pass
+import app.ai.models
+
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:

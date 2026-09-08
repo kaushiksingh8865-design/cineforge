@@ -110,4 +110,4 @@ class ValidationEngine:
                 scene_rules,
             ))
 
-        return ValidationEngine.build_validate_result(issue)
+        return ValidationEngine.validate_result(issue)

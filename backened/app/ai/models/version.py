@@ -43,7 +43,7 @@ class Version(Base):
         "FilmProject",
         back_populates = "versions"
     )
-    generated_files:Mapped["GeneratedFile"] = relationship(
+    generated_files:Mapped[list["GeneratedFile"] ]= relationship(
         "GeneratedFile",
         back_populates = "version",
         cascade= "all, delete-orphan",

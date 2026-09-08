@@ -60,11 +60,11 @@ class ProposalModel(Base):
         "Scene",
         back_populates= "proposals"
     )
-    events:Mapped["EventModel"] = relationship(
+    events:Mapped[list["EventModel"]] = relationship(
         "EventModel",
-        back_populates="Proposal"
+        back_populates="proposal"
     )
     approvals:Mapped["ApprovalModel"] = relationship (
-        "ApprovaModel",
+        "ApprovalModel",
         back_populates= "proposal"
     )

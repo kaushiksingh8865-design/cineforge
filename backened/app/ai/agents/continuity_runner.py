@@ -60,21 +60,7 @@ Continuity context:
     )
 
 
-async def run_continuity_analysis(
-    db: AsyncSession,
-    project_id: int,
-    scene_number: int,
-):
-    context = await FilmStateEngine.get_continuity_context(
-        db,
-        project_id,
-        scene_number,
-    )
 
-    if context is None:
-        return None
-
-    return await run_continuity_agent(context)
 
 async def run_continuity_analysis(
     db: AsyncSession,
@@ -90,7 +76,7 @@ async def run_continuity_analysis(
     if context is None:
         return None
 
-    validation = ValidationEngine.validate_state_transition(
+    validation = ValidationEngine.v_state_t(
         context
     )
 

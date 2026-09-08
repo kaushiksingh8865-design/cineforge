@@ -52,13 +52,13 @@ class FilmProject(Base):
     back_populates="project",
     cascade="all, delete-orphan",
     )
-    prop:Mapped[list['Prop']] = relationship(
+    props:Mapped[list['Prop']] = relationship(
         "Prop",
         back_populates="project",
         cascade= "all, delete-orphan"
     )
 
-    proposals:Mapped["ProposalModel"] = relationship(
+    proposals:Mapped[list["ProposalModel"]] = relationship(
         "ProposalModel",
         back_populates="project"
     )

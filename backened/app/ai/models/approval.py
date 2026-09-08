@@ -39,6 +39,6 @@ class ApprovalModel(Base):
     )
     proposal:Mapped["ProposalModel"]  = relationship(
         "ProposalModel",
-        back_populates= "approvals,"
+        back_populates= "approvals"
 
     )

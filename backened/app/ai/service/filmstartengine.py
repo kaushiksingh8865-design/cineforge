@@ -135,7 +135,7 @@ class FilmStateEngine:
         current_scene,
     ):
         character_matches = FilmStateEngine.match_entities(
-            previous_scene.character_states or None,
+            previous_scene.character_states or [],
             current_scene.character_states,
             "character_id"
         )
@@ -215,16 +215,3 @@ class FilmStateEngine:
                 
 
         }
-           
-        
-
-          
-         
-        
-        
-
-
-
-
-
-    
