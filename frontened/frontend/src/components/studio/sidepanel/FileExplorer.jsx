@@ -12,8 +12,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-import { apiFetch } from "../../api";
-
+import { apiFetch } from "../../../api";
 function FileExplorer({
   projectId,
   activeFile,

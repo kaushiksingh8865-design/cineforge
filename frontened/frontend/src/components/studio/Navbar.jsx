@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, LogOut, X, Send, Sparkles } from "lucide-react";
 
-function Navbar() {
+function Navbar({ onLogout }) {
   const [showUserCard, setShowUserCard] = useState(false);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [message, setMessage] = useState("");
@@ -32,10 +32,11 @@ function Navbar() {
 
   // Logout
   const handleLogout = () => {
-    localStorage.removeItem("user");
     setShowUserCard(false);
 
-    window.location.href = "/";
+    if (onLogout) {
+      onLogout();
+    }
   };
 
   // Open AI Assistant
@@ -66,6 +67,7 @@ function Navbar() {
       {/* =====================================================
           LEFT — LOGO
       ====================================================== */}
+
       <div className="flex items-center">
         <div className="flex items-center gap-3">
 
@@ -86,6 +88,7 @@ function Navbar() {
       {/* =====================================================
           CENTER — WORKSPACE STATUS
       ====================================================== */}
+
       <div className="flex-1 flex items-center justify-center">
 
         <div className="flex items-center gap-2 text-sm">
@@ -108,6 +111,7 @@ function Navbar() {
       {/* =====================================================
           RIGHT — AI ASSISTANT + USER
       ====================================================== */}
+
       <div className="flex items-center gap-3">
 
         {/* AI Assistant Button */}
@@ -123,6 +127,7 @@ function Navbar() {
         {/* =================================================
             USER PROFILE
         ================================================== */}
+
         <div className="relative ml-2">
 
           {/* User Avatar */}
@@ -148,6 +153,7 @@ function Navbar() {
           {/* =================================================
               USER PROFILE CARD
           ================================================== */}
+
           {showUserCard && (
             <div className="absolute right-0 top-12 z-50 w-72 overflow-hidden rounded-xl border border-white/10 bg-[#15171b] shadow-2xl shadow-black/50">
 
@@ -220,12 +226,14 @@ function Navbar() {
       {/* =====================================================
           AI ASSISTANT PANEL
       ====================================================== */}
+
       {showAIAssistant && (
         <div className="absolute right-5 top-[70px] z-50 w-[380px] overflow-hidden rounded-2xl border border-white/10 bg-[#111318] shadow-2xl shadow-black/60">
 
           {/* =================================================
               AI HEADER
           ================================================== */}
+
           <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
 
             <div className="flex items-center gap-3">
@@ -273,6 +281,7 @@ function Navbar() {
           {/* =================================================
               AI CHAT CONTENT
           ================================================== */}
+
           <div className="h-[330px] overflow-y-auto p-5">
 
             {/* AI Welcome Message */}
@@ -359,6 +368,7 @@ function Navbar() {
           {/* =================================================
               AI INPUT
           ================================================== */}
+
           <div className="border-t border-white/10 p-4">
 
             <form

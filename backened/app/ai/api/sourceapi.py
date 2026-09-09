@@ -25,9 +25,6 @@ router = APIRouter(
 )
 
 
-# =========================================================
-# UPLOAD SOURCE
-# =========================================================
 
 @router.post(
     "/{project_id}/sources/upload",
@@ -99,9 +96,6 @@ async def upload_source(
         )
 
 
-# =========================================================
-# INGEST SOURCE
-# =========================================================
 
 @router.post(
     "/{project_id}/sources/{source_id}/ingest",
@@ -196,10 +190,6 @@ async def ingest_source(
             detail=f"Failed to ingest source: {str(exc)}",
         )
 
-
-# =========================================================
-# UPDATE SOURCE CONTENT
-# =========================================================
 
 @router.put(
     "/{project_id}/sources/{source_id}/content"

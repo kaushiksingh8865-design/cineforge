@@ -15,7 +15,7 @@ import { apiFetch } from "../api";
 
 const projectId = 1;
 
-function Studio() {
+function Studio({ onLogout }) {
 
   // =========================================================
   // ACTIVE ACTIVITY BAR PANEL
@@ -310,7 +310,9 @@ function Studio() {
           NAVBAR
       ==================================================== */}
 
-      <Navbar />
+      <Navbar
+        onLogout={onLogout}
+      />
 
 
       {/* ===================================================

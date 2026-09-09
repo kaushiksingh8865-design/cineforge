@@ -26,6 +26,12 @@ function App() {
     setPage("login");
   };
 
+  // Logout → remove JWT and return to About
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    setPage("about");
+  };
+
   // ABOUT PAGE
   if (page === "about") {
     return (
@@ -58,7 +64,11 @@ function App() {
 
   // STUDIO PAGE
   if (page === "studio") {
-    return <Studio />;
+    return (
+      <Studio
+        onLogout={handleLogout}
+      />
+    );
   }
 
   // Fallback
