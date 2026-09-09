@@ -10,7 +10,7 @@ class CharacterService:
     async def create_character(db:AsyncSession, project_id:int, character_data:Character,)-> CharacterModel:
         character= CharacterModel(project_id = project_id, name = character_data.name,)
         db.add(character)
-        await db.commit()
+        await db.flush()
         await db.refresh(character)
 
 

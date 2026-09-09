@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from app.ai.models.proposal import ProposalModel
     from app.ai.models.version import Version
     from app.ai.models.generated import GeneratedFile
-
+    from app.ai.models.source import SourceFile
 
 class FilmProject(Base):
     __tablename__ = "film_projects"
@@ -70,3 +70,8 @@ class FilmProject(Base):
         "GeneratedFile",
         back_populates="project",
     ) 
+    source_files: Mapped[list["SourceFile"]] = relationship(
+    "SourceFile",
+    back_populates="project",
+    cascade="all, delete-orphan",
+)
