@@ -22,16 +22,19 @@ class StateService:
         return result.scalar_one_or_none()
 
     @staticmethod
-    async def create_character_state(db:AsyncSession , character_id:int, scene_id:int, state_data:CharacterState) -> model:
+    async def create_character_state(db:AsyncSession , character_id:int, scene_id:int, state_data:CharacterState, commit:bool =True) -> model:
         state = model(character_id=character_id,
                       scene_id = scene_id,
                       status= state_data.status,
                       injuries=state_data.injuries,
                       wardrobe = state_data.wardrobe,)
         db.add(state)
-        await db.commit()
+        if commit:
+            await db.commit()
+        else:
+            await db.flush()
         await db.refresh(state)
-
+      
         return state
 
     @staticmethod
@@ -82,7 +85,7 @@ class StateService:
 
 
     @staticmethod
-    async def create_prop_state(db:AsyncSession , prop_id:int , scene_id:int , state_data:PropState) -> modelp:
+    async def create_prop_state(db:AsyncSession , prop_id:int , scene_id:int , state_data:PropState,commit: bool = True,) -> modelp:
         state = modelp(
             prop_id = prop_id,
             scene_id = scene_id,
@@ -92,8 +95,13 @@ class StateService:
         )
         db.add(state)
 
-        await db.commit()
+        if commit:
+            await db.commit()
+        else:
+            await db.flush()
+                           
         await db.refresh(state)
+        
 
         return state
     @staticmethod
@@ -137,24 +145,26 @@ class StateService:
 
 
     @staticmethod
-    async def get_scene_state(db:AsyncSession, scene_id:int) ->models |None:
+    async def get_scene_state(db:AsyncSession, scene_id:int, ) ->models |None:
         result =await db.execute(select(models).where(models.scene_id == scene_id))
         return result.scalar_one_or_none()
 
     @staticmethod
-    async def create_scene_state(db:AsyncSession , scene_id:int, state_data:SceneState)-> models:
+    async def create_scene_state(db:AsyncSession , scene_id:int, state_data:SceneState,commit:bool = True,)-> models:
         state = models(
             scene_id=scene_id,
             state_data=state_data.state_data
         )
 
         db.add(state)
-        await db.commit()
+        if commit:
+            await db.commit()
+        else:
+            await db.flush()
         await db.refresh(state)
-
         return state
 
-    @staticmethod
+    @staticmethod   
     async def scene_state_exist(db:AsyncSession , scene_id:int,)->bool:
         result = await db.execute(select(models).where(models.scene_id ==scene_id))
         return result.scalar_one_or_none() is not None

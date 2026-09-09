@@ -21,3 +21,4 @@ from app.ai.models.event import EventModel
 from app.ai.models.version import Version
 from app.ai.models.generated import GeneratedFile
 from app.ai.models.source import SourceFile
+from app.ai.models.user import User

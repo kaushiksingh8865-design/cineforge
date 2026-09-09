@@ -8,11 +8,14 @@ from app.ai.schemas.property import Prop
 class PropService:
 
     @staticmethod
-    async def create_prop(db:AsyncSession ,project_id:int , prop_data:Prop,)-> PropModel:
+    async def create_prop(db:AsyncSession ,project_id:int , prop_data:Prop,commit: bool =True)-> PropModel:
         prop = PropModel(project_id=project_id, name = prop_data.name , description = prop_data.description,)
         db.add(prop)
 
-        await db.commit()
+        if commit:
+            await db.commit()
+        else:
+            await db.flush()
         await db.refresh(prop)
 
         return prop

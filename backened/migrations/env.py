@@ -15,6 +15,7 @@ from app.ai.models.association import scene_props, scene_characters
 from app.ai.models.scenestate import SceneState
 from app.ai.models.characterstate import CharacterState
 from app.ai.models.propstate import PropState
+from app.ai.models.user import User
 
 from app.ai.core.settings import settings
 

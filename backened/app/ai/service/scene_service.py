@@ -9,7 +9,7 @@ from sqlalchemy.orm import selectinload
 class SceneService:
 
     @staticmethod
-    async def create_scene(db:AsyncSession , project_id: int, scene_data: Scene,) -> SceneModel:
+    async def create_scene(db:AsyncSession , project_id: int, scene_data: Scene,commit:bool=True,) -> SceneModel:
         scene = SceneModel(
             project_id= project_id,
             scene_number=scene_data.scene_number,
@@ -19,9 +19,9 @@ class SceneService:
             visual_prompt=scene_data.visual_prompt,
         )
         db.add(scene)
-        await db.commit()
+        if commit:
+            await db.commit()
         await db.refresh(scene)
-
         return scene
 
     @staticmethod

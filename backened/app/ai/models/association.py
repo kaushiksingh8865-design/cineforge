@@ -20,7 +20,7 @@ scene_props = Table(
     "scene_props",
     Base.metadata,
     Column(
-    "scene.id",
+    "scene_id",
     ForeignKey("scenes.id", ondelete ="CASCADE"),
     primary_key= True
     ),

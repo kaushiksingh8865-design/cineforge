@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import DateTime, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import DateTime, ForeignKey, String, Text
 
 from app.ai.database.database import Base
 from typing import TYPE_CHECKING
@@ -14,11 +15,21 @@ if TYPE_CHECKING:
     from app.ai.models.version import Version
     from app.ai.models.generated import GeneratedFile
     from app.ai.models.source import SourceFile
+    from app.ai.models.user import User
+
+  
 
 class FilmProject(Base):
     __tablename__ = "film_projects"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+
+    
 
     title: Mapped[str] = mapped_column(
         String(200),
@@ -75,3 +86,8 @@ class FilmProject(Base):
     back_populates="project",
     cascade="all, delete-orphan",
 )
+    
+    user: Mapped["User"] = relationship(
+        "User",
+        back_populates="projects",
+    )

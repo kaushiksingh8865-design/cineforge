@@ -1,0 +1,26 @@
+@import "tailwindcss";
+/* CineForge Dark Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111316;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2d33;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3e46;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2d33 #111316;
+}
+

@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.ai.etl.transformer import ExtractedFilmData
+
 from app.ai.schemas.scene import Scene
 from app.ai.schemas.character import Character
 from app.ai.schemas.property import Prop
@@ -31,14 +32,43 @@ class FilmDataLoader:
             scene_data.scene_number,
         )
 
-        if existing_scene is not None:
-            return existing_scene
+        if existing_scene is None:
 
-        scene = await SceneService.create_scene(
+            scene_data_model = Scene(
+                scene_number=scene_data.scene_number,
+                header=scene_data.header,
+                location=scene_data.location,
+                time_of_day=scene_data.time_of_day,
+                visual_prompt=scene_data.visual_prompt,
+            )
+
+            await SceneService.create_scene(
+                db,
+                project_id,
+                scene_data_model,
+                commit=False,
+            )
+
+        scene = await SceneService.get_scene_by_number(
             db,
             project_id,
-            scene_data,
+            scene_data.scene_number,
         )
+
+        if scene is None:
+            raise RuntimeError(
+                "Scene could not be loaded after creation."
+            )
+
+        scene = await SceneService.get_scene_with_relationships(
+            db,
+            scene.id,
+        )
+
+        if scene is None:
+            raise RuntimeError(
+                "Scene relationships could not be loaded."
+            )
 
         return scene
 
@@ -70,6 +100,7 @@ class FilmDataLoader:
                     db,
                     project_id,
                     character_data,
+                    commit=False,
                 )
 
             if character not in scene.characters:
@@ -82,7 +113,7 @@ class FilmDataLoader:
                 )
             )
 
-        await db.commit()
+        await db.flush()
 
         return loaded_characters
 
@@ -116,6 +147,7 @@ class FilmDataLoader:
                     character.id,
                     scene.id,
                     state_data,
+                    commit=False,
                 )
 
             else:
@@ -126,6 +158,8 @@ class FilmDataLoader:
                     scene.id,
                     state_data,
                 )
+
+        await db.flush()
 
     @staticmethod
     async def load_props(
@@ -156,6 +190,7 @@ class FilmDataLoader:
                     db,
                     project_id,
                     prop_data,
+                    commit=False,
                 )
 
             if prop not in scene.props:
@@ -168,7 +203,7 @@ class FilmDataLoader:
                 )
             )
 
-        await db.commit()
+        await db.flush()
 
         return loaded_props
 
@@ -201,6 +236,7 @@ class FilmDataLoader:
                     prop.id,
                     scene.id,
                     state_data,
+                    commit=False,
                 )
 
             else:
@@ -211,6 +247,8 @@ class FilmDataLoader:
                     scene.id,
                     state_data,
                 )
+
+        await db.flush()
 
     @staticmethod
     async def load_scene_state(
@@ -235,6 +273,7 @@ class FilmDataLoader:
                 db,
                 scene.id,
                 state_data,
+                commit=False,
             )
 
         else:
@@ -245,6 +284,8 @@ class FilmDataLoader:
                 state_data,
             )
 
+        await db.flush()
+
     @staticmethod
     async def load(
         db: AsyncSession,
@@ -252,44 +293,51 @@ class FilmDataLoader:
         film_data: ExtractedFilmData,
     ):
 
-        scene = await FilmDataLoader.load_scene(
-            db,
-            project_id,
-            film_data,
-        )
+        try:
 
-        loaded_characters = await FilmDataLoader.load_characters(
-            db,
-            project_id,
-            scene,
-            film_data,
-        )
+            scene = await FilmDataLoader.load_scene(
+                db,
+                project_id,
+                film_data,
+            )
 
-        await FilmDataLoader.load_character_states(
-            db,
-            scene,
-            loaded_characters,
-        )
+            loaded_characters = await FilmDataLoader.load_characters(
+                db,
+                project_id,
+                scene,
+                film_data,
+            )
 
-        loaded_props = await FilmDataLoader.load_props(
-            db,
-            project_id,
-            scene,
-            film_data,
-        )
+            await FilmDataLoader.load_character_states(
+                db,
+                scene,
+                loaded_characters,
+            )
 
-        await FilmDataLoader.load_prop_states(
-            db,
-            scene,
-            loaded_props,
-        )
+            loaded_props = await FilmDataLoader.load_props(
+                db,
+                project_id,
+                scene,
+                film_data,
+            )
 
-        await FilmDataLoader.load_scene_state(
-            db,
-            scene,
-            film_data,
-        )
+            await FilmDataLoader.load_prop_states(
+                db,
+                scene,
+                loaded_props,
+            )
 
-        await db.commit()
+            await FilmDataLoader.load_scene_state(
+                db,
+                scene,
+                film_data,
+            )
 
-        return scene
+            await db.commit()
+
+            return scene
+
+        except Exception:
+            await db.rollback()
+            raise
+        

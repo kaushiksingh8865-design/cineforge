@@ -1,4 +1,3 @@
-
 import os
 
 from google.adk import Agent
@@ -8,9 +7,6 @@ from google.genai import types
 from pydantic import BaseModel, Field
 
 from app.ai.core.settings import settings
-from app.ai.schemas.scene import Scene
-from app.ai.schemas.character import Character
-from app.ai.schemas.property import Prop
 
 
 os.environ.setdefault(
@@ -19,11 +15,27 @@ os.environ.setdefault(
 )
 
 
+# ---------------------------------------------------------
+# Intermediate ETL schemas
+# ---------------------------------------------------------
+
+class ExtractedScene(BaseModel):
+    scene_number: int
+    header: str
+    location: str
+    time_of_day: str
+    visual_prompt: str | None = None
+
+
 class ExtractedCharacter(BaseModel):
     name: str
     status: str | None = None
-    injuries: list[str] = Field(default_factory=list)
-    wardrobe: list[str] = Field(default_factory=list)
+    injuries: list[str] = Field(
+        default_factory=list
+    )
+    wardrobe: list[str] = Field(
+        default_factory=list
+    )
 
 
 class ExtractedProp(BaseModel):
@@ -35,17 +47,24 @@ class ExtractedProp(BaseModel):
 
 
 class ExtractedFilmData(BaseModel):
-    scene: Scene
+    scene: ExtractedScene
+
     characters: list[ExtractedCharacter] = Field(
         default_factory=list
     )
+
     props: list[ExtractedProp] = Field(
         default_factory=list
     )
+
     scene_state_data: dict = Field(
         default_factory=dict
     )
 
+
+# ---------------------------------------------------------
+# Transformer Agent
+# ---------------------------------------------------------
 
 transformer_agent = Agent(
     name="source_transformer",
@@ -60,32 +79,48 @@ text into structured filmmaking data.
 Rules:
 
 1. Use ONLY the supplied source text.
+
 2. Do not perform web research.
+
 3. Do not invent characters, props, locations, or events
    that are not supported by the source.
+
 4. Extract the primary scene information.
+
 5. Extract all characters explicitly present in the scene.
-6. Extract all important props explicitly present in the scene.
-7. Extract character state information such as:
+
+6. Extract important props explicitly present in the scene.
+
+7. Extract character state information:
    - status
    - injuries
    - wardrobe
-8. Extract prop state information such as:
+
+8. Extract prop state information:
    - holder
    - location
    - status
+
 9. Put scene-level dynamic information into
    scene_state_data.
+
 10. If information is not present, use null or empty lists.
-11. Preserve the wording and meaning of the source as much
-    as practical.
+
+11. Preserve the meaning of the source.
+
 12. This is an extraction/transformation operation,
     not creative story generation.
+
 13. Return ONLY valid JSON.
+
 14. Do not use markdown code fences.
 """,
 )
 
+
+# ---------------------------------------------------------
+# Transformer Runner
+# ---------------------------------------------------------
 
 async def transform_source(
     source_text: str,
@@ -112,35 +147,36 @@ async def transform_source(
 Transform the following source into structured
 CineForge film data.
 
-Return ONLY valid JSON with this structure:
+Return ONLY valid JSON using this structure:
 
 {{
     "scene": {{
         "scene_number": 1,
-        "header": "string",
-        "location": "string",
-        "time_of_day": "string",
-        "characters": [],
-        "props": [],
+        "header": "INT. ABANDONED LAB - NIGHT",
+        "location": "ABANDONED LAB",
+        "time_of_day": "NIGHT",
         "visual_prompt": null
     }},
+
     "characters": [
         {{
-            "name": "string",
+            "name": "Vance",
             "status": null,
             "injuries": [],
             "wardrobe": []
         }}
     ],
+
     "props": [
         {{
-            "name": "string",
+            "name": "flashlight",
             "description": null,
-            "holder": null,
-            "location": null,
+            "holder": "Vance",
+            "location": "laboratory",
             "status": null
         }}
     ],
+
     "scene_state_data": {{}}
 }}
 
@@ -167,16 +203,18 @@ SOURCE:
             "Source Transformer did not return a final response."
         )
 
-    response_text = final_response.content.parts[0].text.strip()
+    response_text = (
+        final_response.content.parts[0].text.strip()
+    )
 
     if response_text.startswith("```"):
-        response_text = response_text.removeprefix(
-            "```json"
-        ).removeprefix(
-            "```"
-        ).removesuffix(
-            "```"
-        ).strip()
+        response_text = (
+            response_text
+            .removeprefix("```json")
+            .removeprefix("```")
+            .removesuffix("```")
+            .strip()
+        )
 
     return ExtractedFilmData.model_validate_json(
         response_text

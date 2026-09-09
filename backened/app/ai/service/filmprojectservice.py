@@ -61,4 +61,4 @@ class FilmService:
     @staticmethod
     async def project_exist(db:AsyncSession ,project_id:int)->bool:
         result = await db.execute(select(model).where(model.id == project_id))
-        return result.scalar_one_or_none is not None
+        return result.scalar_one_or_none() is not None
